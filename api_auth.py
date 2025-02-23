@@ -6,13 +6,13 @@ CONFIG_FILE = "config.json"
 KEY_FILE = "secret.key"
 
 def generate_key():
-  key = Fernet.generate_key()
-  with open(KEY_FILE, "wb") as key_file:
-    key_file.write(key)
+  if not os.path.exists(KEY_FILE):
+    key = Fernet.generate_key()
+    with open(KEY_FILE, "wb") as key_file:
+      key_file.write(key)
 
 def load_key():
-  if not os.path.exists(KEY_FILE):
-    generate_key()
+  generate_key()
   with open(KEY_FILE, "rb") as key_file:
     return key_file.read()
 
@@ -41,9 +41,12 @@ def get_api_credentials():
     encrypted_data = json.load(file)
   return decrypt_data(encrypted_data["api_key"]), decrypt_data(encrypted_data["api_secret"])
 
-if __name__ == "__main__":
-  api_key = input("Enter your Binance API Key: ")
-  api_secret = input("Enter your Binance API Secret: ")
-  save_api_credentials(api_key, api_secret)
-  print("API credentials saved securely.")
+def ensure_config_exists():
+  if not os.path.exists(CONFIG_FILE):
+    api_key = input("Enter your Binance API Key: ")
+    api_secret = input("Enter your Binance API Secret: ")
+    save_api_credentials(api_key, api_secret)
+    print("API credentials saved securely.")
 
+if __name__ == "__main__":
+  ensure_config_exists()
