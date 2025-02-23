@@ -3,11 +3,11 @@ from tkinter import ttk, messagebox
 import requests
 import time
 import threading
+from api_auth import get_api_credentials
 
 #Binance API Config (Replace with actual API keys)
 
-API_KEY = "your_api_key"
-API_SECRET = "your_api_secret"
+API_KEY, API_SECRET = get_api_credentials()
 BASE_URL = "https://fapi.binance.com"
 
 class CryptoTraderApp:
