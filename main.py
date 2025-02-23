@@ -1,5 +1,5 @@
-import tkinter as tk from tkinter
-import ttk, messagebox
+import tkinter as tk
+from tkinter import ttk, messagebox
 import requests
 import time
 import threading
